@@ -2,7 +2,7 @@ import { useState, useCallback, useEffect, useMemo } from "react";
 
 const POSITION = {x: 0, y: 0};
 
-export const Draggable = ({ children }) => {
+export const Draggable = ({ children, id, onDrag }) => {
   const [state, setState] = useState({
     isDragging: false,
     origin: POSITION,
@@ -33,7 +33,7 @@ export const Draggable = ({ children }) => {
         ...state,
         translation,
       }));
-      // onDrag({ id, translation });
+      onDrag({ id, translation });
     },
     [state.origin, state.lastTranslation]
   );

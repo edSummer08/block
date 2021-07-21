@@ -1,21 +1,23 @@
 import { useState, useEffect } from "react";
-import { BlocksNavigation } from "./Blocks";
+import { List } from "./List";
+
+import { PositionSettings } from "../components/Settings/Common/PositionSettings";
+import { SizeSettings } from "../components/Settings/Common/SizeSettings";
+import { DeleteSettings } from "../components/Settings/Common/DeleteSettings";
+
 import { TextSettings } from "../components/Settings/TextSettings";
 // import { ImageBlockSettings } from "../components/ImageBlock/ImageBlockSettings";
 // import { ShapeBlockSettings } from "../components/ShapeBlock/ShapeBlockSettings";
 // import { ButtonBlockSettings } from "../components/ButtonBlock/ButtonBlockSettings";
 // import { VideoBlockSettings } from "../components/VideoBlock/VideoBlockSettings";
 
-// import { PositionSettings } from "../components/BlockSettings/PositionSettings";
-// import { SizeSettings } from "../components/BlockSettings/SizeSettings";
-// import { DeleteSettings } from "../components/BlockSettings/DeleteSettings";
 
 import {
   useAppState,
   useAppDispatch,
-  changeBlockPosition,
-  changeBlockSize,
-  deleteBlock,
+  deleteComponent,
+  changeComponentPosition,
+  changeComponentSize,
 } from "../context";
 
 export default function Navigation() {
@@ -69,24 +71,24 @@ export default function Navigation() {
               {selectedComponent.name && (
                 <>
                   <li className="list-group-item">
-                    {selectedComponent.name} block settings
+                    {selectedComponent.name} settings
                   </li>
-                  {/* <PositionSettings
-                    selectedBlock={selectedComponent}
+                  <PositionSettings
+                    selected={selectedComponent}
                     dispatch={dispatch}
-                    changeBlockPosition={changeBlockPosition}
+                    onChangePosition={changeComponentPosition}
                   />
                   <SizeSettings
-                    selectedBlock={selectedComponent}
+                    selected={selectedComponent}
                     dispatch={dispatch}
-                    changeBlockSize={changeBlockSize}
-                  /> */}
+                    onChangeSize={changeComponentSize}
+                  />
                   {blockSettingsView()}
-                  {/* <DeleteSettings
-                    selectedBlock={selectedComponent}
+                  <DeleteSettings
+                    selected={selectedComponent}
                     dispatch={dispatch}
-                    deleteBlock={deleteBlock}
-                  /> */}
+                    onDelete={deleteComponent}
+                  />
                 </>
               )}
             </ul>
@@ -95,7 +97,7 @@ export default function Navigation() {
       </nav>
 
       <div className="nav-scroller bg--body shadow-sm">
-        <BlocksNavigation />
+        <List />
       </div>
     </header>
   );

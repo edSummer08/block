@@ -1,27 +1,21 @@
+import { v4 as uuidv4 } from 'uuid';
+
 export function setComponent(dispatch, type) {
   switch (type) {
     case "text":
       const newTextItem = {
-        id: Date.now(),
         name: "Text",
-        type: "div",
         props: {
-          text: "Lorem Ipsum is simply dummy text of the printing.",
-          position: {
-            x: 0,
-            y: 0,
+          type: "section",
+          attr: {
+            id: uuidv4(),
+            class: "textClass",
           },
-          size: {
-            w: 300,
-            h: "auto",
-          },
+          content: "section name",
           styles: {
-            border: {
-              color: "#000000",
-              style: "solid",
-              width: "1",
-              radius: 0,
-            },
+            position: 'absolute',
+            top: 0,
+            left: 0,
           },
         },
       };
@@ -29,31 +23,22 @@ export function setComponent(dispatch, type) {
       break;
     case "image":
       const newImageItem = {
-        id: Date.now(),
         name: "Image",
-        type: "img",
         props: {
-          image: {
-            preview: "",
-            raw: "",
+          type: "img",
+          attr: {
+            id: uuidv4(),
+            class: "imgClass",
+            src: "",
+            alt: "picture",
           },
-          position: {
-            x: 0,
-            y: 0,
-          },
-          size: {
-            w: 200,
-            h: 200,
-          },
+          content: "section name",
           styles: {
-            border: {
-              color: "#000000",
-              style: "solid",
-              width: "1",
-              radius: 0,
-            },
-            backgroundColor: "#cccccc",
-            opacity: 1,
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: 200,
+            height: 200,
           },
         },
       };
@@ -61,26 +46,25 @@ export function setComponent(dispatch, type) {
       break;
     case "shape":
       const newShapeItem = {
-        id: Date.now(),
         name: "Shape",
-        type: "div",
         props: {
-          position: {
-            x: 0,
-            y: 0,
+          type: "div",
+          attr: {
+            id: uuidv4(),
+            class: "shapeClass",
           },
-          size: {
-            w: 100,
-            h: 100,
-          },
+          content: "section name",
           styles: {
-            border: {
-              color: "#000000",
-              style: "solid",
-              width: "1",
-              radius: 0,
-            },
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: 200,
+            height: 200,
             backgroundColor: "#f1e20e",
+            borderColor: "#000000",
+            borderStyle: "solid",
+            borderWidth: "0",
+            borderRadius: 0,
             opacity: 1,
           },
         },
@@ -89,25 +73,25 @@ export function setComponent(dispatch, type) {
       break;
     case "button":
       const newButtonItem = {
-        id: Date.now(),
         name: "Button",
-        type: "button",
         props: {
-          caption: "Let's start",
-          position: {
-            x: 0,
-            y: 0,
+          type: "button",
+          attr: {
+            id: uuidv4(),
+            class: "buttonClass",
           },
-          size: {
-            w: 100,
-            h: 38,
-          },
+          content: "section name",
           styles: {
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: 200,
+            height: 200,
+            backgroundColor: "#f1e20e",
             borderColor: "#000000",
             borderStyle: "solid",
             borderWidth: "0",
             borderRadius: 0,
-            backgroundColor: "#f1e20e",
             opacity: 1,
           },
         },
@@ -116,50 +100,33 @@ export function setComponent(dispatch, type) {
       break;
     case "video":
       const newVideoItem = {
-        id: Date.now(),
         name: "Video",
-        type: "video",
         props: {
-          src: "",
-          position: {
-            x: 0,
-            y: 0,
+          type: "video",
+          attr: {
+            id: uuidv4(),
+            class: "videoClass",
+            src: "",
           },
-          size: {
-            w: 300,
-            h: 200,
-          },
+          content: "section name",
           styles: {
-            border: {
-              color: "#000000",
-              style: "solid",
-              width: "1",
-              radius: 0,
-            },
-            backgroundColor: "#cccccc",
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: 200,
+            height: 200,
+            backgroundColor: "#f1e20e",
+            borderColor: "#cccccc",
+            borderStyle: "solid",
+            borderWidth: "0",
+            borderRadius: 0,
+            opacity: 1,
           },
         },
       };
       dispatch({ type: "SET_COMPONENT", payload: newVideoItem });
       break;
-    case "html":
-      const newHtmlItem = {
-        id: Date.now(),
-        type: "Html",
-        props: {
-          position: {
-            x: 0,
-            y: 0,
-          },
-          size: {
-            w: 300,
-            h: 200,
-          },
-          styles: {},
-        },
-      };
-      dispatch({ type: "SET_COMPNENT", payload: newHtmlItem });
-      break;
+
     default:
       break;
   }
@@ -169,21 +136,22 @@ export function selectComponent(dispatch, component) {
   dispatch({ type: "SELECT_COMPONENT", payload: component });
 }
 
-export function changeBlockPosition(dispatch, payload) {
-  dispatch({ type: "CHANGE_BLOCK_POSITION", payload: payload });
+export function deleteComponent(dispatch, payload) {
+  dispatch({ type: "DELETE_COMPONENT", payload: payload });
 }
 
-export function changeBlockSize(dispatch, payload) {
-  dispatch({ type: "CHANGE_BLOCK_SIZE", payload: payload });
+export function changeComponentPosition(dispatch, payload) {
+  dispatch({ type: "CHANGE_COMPONENT_POSITION", payload: payload });
+}
+
+export function changeComponentSize(dispatch, payload) {
+  dispatch({ type: "CHANGE_COMPONENT_SIZE", payload: payload });
 }
 
 export function changeBlockStyle(dispatch, payload) {
   dispatch({ type: "CHANGE_BLOCK_STYLE", payload: payload });
 }
 
-export function deleteBlock(dispatch, payload) {
-  dispatch({ type: "DELETE_BLOCK", payload: payload });
-}
 
 export function changeImageBlock(dispatch, blockProperties) {
   dispatch({ type: "CHANGE_IMAGE_BLOCK", payload: blockProperties });

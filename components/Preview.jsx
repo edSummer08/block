@@ -13,19 +13,34 @@ import { Draggable } from "./Draggable";
 import styles from "../styles/Main.module.css";
 
 function PreviewContainer({
-  index,
+  id,
   component,
   focused = false,
   onClick,
+  onDrag,
   children,
   ...restProps
 }) {
   const clickHandler = useCallback(() => {
-    onClick(index, component);
+    onClick(id, component);
   }, [onClick]);
+
+  const handleDrag = useCallback(
+    (data) => {
+      onDrag(data);
+    },
+    [onDrag]
+  );
+
   return (
-    <div onClick={clickHandler} {...restProps}>
-      <Draggable>{children}</Draggable>
+    <div
+      // style={{ border: focused && "1px solid blue" }}
+      onClick={clickHandler}
+      {...restProps}
+    >
+      <Draggable id={id} onDrag={handleDrag}>
+        {children}
+      </Draggable>
     </div>
   );
 }
@@ -41,16 +56,16 @@ function Text() {
   );
 }
 function Image() {
-  return <img alt="picture"/>;
+  return <div>Image Component</div>;
 }
 function Shape() {
-  return <div>Test Shape Component</div>;
+  return <div>Shape Component</div>;
 }
 function Button() {
-  return <button>Test Button Component</button>;
+  return <div>Button Component</div>;
 }
 function Video() {
-  return <video>Test Video Component</video>;
+  return <div>Video Component</div>;
 }
 
 const PreviewComponents = {
@@ -87,34 +102,38 @@ export default function Preview(props) {
   // });
 
   const clickHandler = useCallback(
-    (index, component) => {
-      if (focused === index) setFocused(null);
-      setFocused(index);
+    (id, component) => {
+      if (focused === id) setFocused(null);
+      setFocused(id);
       selectComponent(dispatch, component);
     },
     [focused, setFocused]
   );
 
+  const handleDrag = useCallback((data) => {
+    console.log('component', data);
+  }, []);
+
   const componentPreview =
     components.length > 0 &&
-    components.map((component, index) => {
+    components.map((component) => {
       if (typeof PreviewComponents[component.name] !== "undefined") {
         const NewComponent = React.createElement(
           PreviewComponents[component.name],
           {
-            // @TODO: Use a hash here?
-            key: index,
+            key: component.props.attr.id,
             ...component.props,
           }
         );
         return React.createElement(
           PreviewContainer,
           {
-            key: index,
-            index,
+            key: component.props.attr.id,
+            id: component.props.attr.id,
             component,
             onClick: clickHandler,
-            focused: focused === index ? true : false,
+            onDrag: handleDrag,
+            focused: focused === component.props.attr.id ? true : false,
           },
           [NewComponent]
         );

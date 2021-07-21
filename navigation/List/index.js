@@ -1,6 +1,6 @@
 import { useAppDispatch, setComponent } from "../../context";
 
-export const BlocksNavigation = () => {
+export const List = () => {
   const dispatch = useAppDispatch();
 
   return (
