@@ -4,14 +4,14 @@ import { Input } from "../../Common/Input";
 export const SizeSettings = ({ selected, dispatch, onChangeSize }) => {
   function handleChange(e) {
     onChangeSize(dispatch, {
-      ...selectedBlock,
-      //   props: {
-      //     ...selectedBlock.props,
-      //     size: {
-      //       ...selectedBlock.props.size,
-      //       [e.target.name]: Number(e.target.value),
-      //     },
-      //   },
+      ...selected,
+      props: {
+        ...selected.props,
+        styles: {
+          ...selected.props.styles,
+          [e.target.name]: Number(e.target.value),
+        },
+      },
     });
   }
 
@@ -22,7 +22,7 @@ export const SizeSettings = ({ selected, dispatch, onChangeSize }) => {
           <div className="input-group input-group-sm">
             <span className="input-group-text">W</span>
             <Input
-              type="name"
+              type="number"
               name="width"
               value={selected.props.styles.width}
               handleChange={handleChange}
@@ -35,7 +35,7 @@ export const SizeSettings = ({ selected, dispatch, onChangeSize }) => {
           <div className="input-group input-group-sm">
             <span className="input-group-text">H</span>
             <Input
-              type="name"
+              type="number"
               name="height"
               value={selected.props.styles.height}
               handleChange={handleChange}
@@ -50,7 +50,7 @@ export const SizeSettings = ({ selected, dispatch, onChangeSize }) => {
           <div className="input-group">
             <RangeInput
               type="range"
-              name="w"
+              name="width"
               min="0"
               max="1200"
               value={selected.props.styles.width}

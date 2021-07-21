@@ -6,7 +6,7 @@ import {
   useAppDispatch,
   useAppState,
   selectComponent,
-  changeBlockPosition,
+  changeComponentPosition,
 } from "../context";
 import Canvas from "../pages/canvas";
 import { Draggable } from "./Draggable";
@@ -17,7 +17,8 @@ function PreviewContainer({
   component,
   focused = false,
   onClick,
-  onDrag,
+  onDragDown,
+  onDragMove,
   children,
   ...restProps
 }) {
@@ -25,11 +26,18 @@ function PreviewContainer({
     onClick(id, component);
   }, [onClick]);
 
-  const handleDrag = useCallback(
+  const handleDragDown = useCallback(
     (data) => {
-      onDrag(data);
+      onDragDown(data);
     },
-    [onDrag]
+    [onDragDown]
+  );
+
+  const handleDragMove = useCallback(
+    (data) => {
+      onDragMove(data);
+    },
+    [onDragMove]
   );
 
   return (
@@ -38,7 +46,12 @@ function PreviewContainer({
       onClick={clickHandler}
       {...restProps}
     >
-      <Draggable id={id} onDrag={handleDrag}>
+      <Draggable
+        id={id}
+        component={component}
+        onDragDown={handleDragDown}
+        onDragMove={handleDragMove}
+      >
         {children}
       </Draggable>
     </div>
@@ -77,9 +90,9 @@ const PreviewComponents = {
 };
 
 export default function Preview(props) {
+  const { components, selectedComponent } = useAppState();
   const dispatch = useAppDispatch();
   const [focused, setFocused] = useState(null);
-  const { components } = useAppState();
 
   // const [{ isOver, isOverCurrent }, drop] = useDrop({
   //   accept: DRAG_TYPES.COMPONENT,
@@ -110,9 +123,30 @@ export default function Preview(props) {
     [focused, setFocused]
   );
 
-  const handleDrag = useCallback((data) => {
-    console.log('component', data);
-  }, []);
+  const handleDragDown = useCallback(
+    (component) => {
+      selectComponent(dispatch, component);
+      console.log("down", component);
+    },
+    [dispatch]
+  );
+
+  const handleDragMove = useCallback(
+    (data) => {
+      changeComponentPosition(dispatch, {
+        ...selectedComponent,
+        props: {
+          ...selectedComponent.props,
+          styles: {
+            ...selectedComponent.props.styles,
+            left: data.translation.x,
+            top: data.translation.y,
+          }
+        }
+      });
+    },
+    [dispatch, selectedComponent]
+  );
 
   const componentPreview =
     components.length > 0 &&
@@ -132,7 +166,8 @@ export default function Preview(props) {
             id: component.props.attr.id,
             component,
             onClick: clickHandler,
-            onDrag: handleDrag,
+            onDragDown: handleDragDown,
+            onDragMove: handleDragMove,
             focused: focused === component.props.attr.id ? true : false,
           },
           [NewComponent]

@@ -1,8 +1,14 @@
-import { useState, useCallback, useEffect, useMemo } from "react";
+import React, { useState, useCallback, useMemo, useEffect } from "react";
 
-const POSITION = {x: 0, y: 0};
+const POSITION = { x: 0, y: 0 };
 
-export const Draggable = ({ children, id, onDrag }) => {
+export const Draggable = ({
+  children,
+  component,
+  id,
+  onDragDown,
+  onDragMove,
+}) => {
   const [state, setState] = useState({
     isDragging: false,
     origin: POSITION,
@@ -10,17 +16,14 @@ export const Draggable = ({ children, id, onDrag }) => {
     lastTranslation: POSITION,
   });
 
-  const handleMouseDown = useCallback(
-    ({ clientX, clientY }) => {
-      setState((state) => ({
-        ...state,
-        isDragging: true,
-        origin: { x: clientX, y: clientY },
-      }));
-      // onDragDown({ id, translation: state.translation });
-    },
-    []
-  );
+  const handleMouseDown = useCallback(({ clientX, clientY }) => {
+    setState((state) => ({
+      ...state,
+      isDragging: true,
+      origin: { x: clientX, y: clientY },
+    }));
+    onDragDown(component);
+  }, []);
 
   const handleMouseMove = useCallback(
     ({ clientX, clientY }) => {
@@ -33,9 +36,10 @@ export const Draggable = ({ children, id, onDrag }) => {
         ...state,
         translation,
       }));
-      onDrag({ id, translation });
+
+      onDragMove({ translation, id });
     },
-    [state.origin, state.lastTranslation]
+    [state.origin, state.lastTranslation, onDragMove, id]
   );
 
   const handleMouseUp = useCallback(() => {
@@ -45,11 +49,12 @@ export const Draggable = ({ children, id, onDrag }) => {
     setState((state) => ({
       ...state,
       isDragging: false,
+      origin: { x: 0, y: 0 },
       lastTranslation: { x: state.translation.x, y: state.translation.y },
     }));
 
-    // onDragUp({ id, translation: state.translation });
-  }, [handleMouseMove, state.translation]);
+    console.log("mouseup");
+  }, [handleMouseMove]);
 
   useEffect(() => {
     if (state.isDragging) {
@@ -57,6 +62,9 @@ export const Draggable = ({ children, id, onDrag }) => {
       window.addEventListener("mouseup", handleMouseUp);
     } else {
       window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
+
+      // setState((state) => ({ ...state, translation: { x: 0, y: 0 } }));
     }
   }, [state.isDragging, handleMouseMove, handleMouseUp]);
 
@@ -64,10 +72,11 @@ export const Draggable = ({ children, id, onDrag }) => {
     () => ({
       cursor: state.isDragging ? "-webkit-grabbing" : "-webkit-grab",
       transform: `translate(${state.translation.x}px, ${state.translation.y}px)`,
-      translation: state.isDragging ? "none" : "transform 500ms",
+      transition: state.isDragging ? "none" : "transform 500ms",
       zIndex: state.isDragging ? 2 : 1,
       position: "absolute",
-      cursor: state.isDragging ? 'move' : 'default'
+      cursor: state.isDragging ? "move" : "default",
+      background: "#ccc",
     }),
     [state.isDragging, state.translation]
   );
@@ -78,4 +87,3 @@ export const Draggable = ({ children, id, onDrag }) => {
     </div>
   );
 };
-  

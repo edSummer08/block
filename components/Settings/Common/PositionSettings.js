@@ -6,15 +6,15 @@ export const PositionSettings = ({
   onChangePosition,
 }) => {
   function handleChange(e) {
-    changeComponentPosition(dispatch, {
+    onChangePosition(dispatch, {
       ...selected,
-    //   props: {
-    //     ...selectedBlock.props,
-    //     position: {
-    //       ...selectedBlock.props.position,
-    //       [e.target.name]: Number(e.target.value),
-    //     },
-    //   },
+      props: {
+        ...selected.props,
+        styles: {
+          ...selected.props.styles,
+          [e.target.name]: Number(e.target.value),
+        },
+      },
     });
   }
 
@@ -25,7 +25,7 @@ export const PositionSettings = ({
           <div className="input-group input-group-sm">
             <span className="input-group-text">X</span>
             <Input
-              type="text"
+              type="number"
               name="top"
               value={selected.props.styles.top}
               handleChange={handleChange}
@@ -38,7 +38,7 @@ export const PositionSettings = ({
           <div className="input-group input-group-sm">
             <span className="input-group-text">Y</span>
             <Input
-              type="text"
+              type="number"
               name="left"
               value={selected.props.styles.left}
               handleChange={handleChange}

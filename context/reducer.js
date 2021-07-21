@@ -1,6 +1,7 @@
 export const initialState = {
   components: [],
   selectedComponent: {},
+  temp: {}
 };
 
 export const Reducer = (state = initialState, action) => {
@@ -35,7 +36,7 @@ export const Reducer = (state = initialState, action) => {
     case "CHANGE_COMPONENT_POSITION":
       const componentsWithNewPosition = state.components.map((item) => {
         if (item.props.attr.id === state.selectedComponent.props.attr.id) {
-          // item.props.position = action.payload.props.position;
+          item.props.styles = action.payload.props.styles;
         }
         return item;
       });
@@ -48,7 +49,7 @@ export const Reducer = (state = initialState, action) => {
     case "CHANGE_COMPONENT_SIZE":
       const componentsWithNewSize = state.components.map((item) => {
         if (item.props.attr.id === state.selectedComponent.props.attr.id) {
-          // item.props.size = action.payload.props.size;
+          item.props.styles = action.payload.props.styles;
         }
         return item;
       });
@@ -68,16 +69,6 @@ export const Reducer = (state = initialState, action) => {
     //   return {
     //     ...state,
     //     [blockType]: blockStyle,
-    //   };
-
-    // // Delete block
-    // case "DELETE_BLOCK":
-    //   const blocks = state[blockType].filter(
-    //     (item) => item.id !== state.selectedBlock.id
-    //   );
-    //   return {
-    //     ...state,
-    //     [blockType]: blocks,
     //   };
 
     // // Change image block

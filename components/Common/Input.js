@@ -1,7 +1,7 @@
-export const Input = ({ name, value, handleChange }) => {
+export const Input = ({ type, name, value, handleChange }) => {
   return (
     <input
-      type="text"
+      type={type}
       name={name}
       value={value}
       onChange={handleChange}
