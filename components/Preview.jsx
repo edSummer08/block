@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect, useRef } from "react";
+import React, { useCallback, useState, useEffect, useRef, useMemo } from "react";
 // import { DRAG_TYPES } from "../constants/DragTypes";
 // import ComponentName from "../components/ComponentName";
 // import PreviewContainer from "./PreviewContainer";
@@ -23,7 +23,7 @@ function PreviewContainer({
   ...restProps
 }) {
   const clickHandler = useCallback(() => {
-    onClick(id, component);
+    onClick(id);
   }, [onClick]);
 
   const handleDragDown = useCallback(
@@ -40,21 +40,38 @@ function PreviewContainer({
     [onDragMove]
   );
 
+  const styles = useMemo(
+    () => ({
+      // cursor: state.isDragging ? "-webkit-grabbing" : "-webkit-grab",
+      // transition: state.isDragging ? "none" : "transform 500ms",
+      // zIndex: state.isDragging ? 2 : 1,
+      // cursor: state.isDragging ? "move" : "default",
+      // background: "#ccc",
+      position: "absolute",
+      transform: `translate(${component.props.styles.left}px, ${component.props.styles.top}px)`,
+      width: component.props.styles.width,
+      height: component.props.styles.height,
+      background: "#ccc",
+      border: focused && "1px solid blue",
+    }),
+    [component.props.styles, focused]
+  );
+
   return (
-    <div
-      // style={{ border: focused && "1px solid blue" }}
-      onClick={clickHandler}
-      {...restProps}
+    <Draggable
+      id={id}
+      component={component}
+      onDragDown={handleDragDown}
+      onDragMove={handleDragMove}
     >
-      <Draggable
-        id={id}
-        component={component}
-        onDragDown={handleDragDown}
-        onDragMove={handleDragMove}
+      <div
+        style={styles}
+        onClick={clickHandler}
+        {...restProps}
       >
         {children}
-      </Draggable>
-    </div>
+      </div>
+    </Draggable>
   );
 }
 
@@ -115,10 +132,9 @@ export default function Preview(props) {
   // });
 
   const clickHandler = useCallback(
-    (id, component) => {
+    (id) => {
       if (focused === id) setFocused(null);
       setFocused(id);
-      selectComponent(dispatch, component);
     },
     [focused, setFocused]
   );

@@ -4,8 +4,8 @@ const POSITION = { x: 0, y: 0 };
 
 export const Draggable = ({
   children,
-  component,
   id,
+  component,
   onDragDown,
   onDragMove,
 }) => {
@@ -71,12 +71,11 @@ export const Draggable = ({
   const styles = useMemo(
     () => ({
       cursor: state.isDragging ? "-webkit-grabbing" : "-webkit-grab",
-      transform: `translate(${state.translation.x}px, ${state.translation.y}px)`,
+      // transform: `translate(${state.translation.x}px, ${state.translation.y}px)`,
       transition: state.isDragging ? "none" : "transform 500ms",
       zIndex: state.isDragging ? 2 : 1,
       position: "absolute",
       cursor: state.isDragging ? "move" : "default",
-      background: "#ccc",
     }),
     [state.isDragging, state.translation]
   );
