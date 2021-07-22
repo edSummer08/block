@@ -1,4 +1,3 @@
-import { RangeInput } from "../../Common/InputRange";
 import { Input } from "../../Common/Input";
 
 export const SizeSettings = ({ selected, dispatch, onChangeSize }) => {
@@ -26,7 +25,7 @@ export const SizeSettings = ({ selected, dispatch, onChangeSize }) => {
               name="width"
               value={selected.props.styles.width}
               handleChange={handleChange}
-              className="form-control"
+              clazz="form-control"
             />
             <span className="input-group-text">px</span>
           </div>
@@ -39,7 +38,7 @@ export const SizeSettings = ({ selected, dispatch, onChangeSize }) => {
               name="height"
               value={selected.props.styles.height}
               handleChange={handleChange}
-              className="form-control"
+              clazz="form-control"
             />
             <span className="input-group-text">px</span>
           </div>
@@ -48,14 +47,14 @@ export const SizeSettings = ({ selected, dispatch, onChangeSize }) => {
       <div className="row">
         <div className="col">
           <div className="input-group">
-            <RangeInput
+            <Input
               type="range"
               name="width"
               min="0"
               max="1200"
               value={selected.props.styles.width}
               handleChange={handleChange}
-              className="form-range"
+              clazz="form-range"
             />
           </div>
         </div>

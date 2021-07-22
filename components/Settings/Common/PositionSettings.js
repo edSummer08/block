@@ -29,7 +29,7 @@ export const PositionSettings = ({
               name="top"
               value={selected.props.styles.top}
               handleChange={handleChange}
-              className="form-control"
+              clazz="form-control"
             />
             <span className="input-group-text">px</span>
           </div>
@@ -42,7 +42,7 @@ export const PositionSettings = ({
               name="left"
               value={selected.props.styles.left}
               handleChange={handleChange}
-              className="form-control"
+              clazz="form-control"
             />
             <span className="input-group-text">px</span>
           </div>

@@ -1,11 +1,27 @@
-export const Input = ({ type, name, value, handleChange }) => {
+export const Input = ({
+  type,
+  name,
+  value,
+  min,
+  max,
+  step,
+  handleChange,
+  id,
+  clazz,
+  styles
+}) => {
   return (
     <input
       type={type}
       name={name}
       value={value}
+      min={min}
+      max={max}
+      step={step}
       onChange={handleChange}
-      className="form-control"
+      id={id}
+      className={clazz}
+      style={styles}
     />
   );
 };

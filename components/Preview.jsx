@@ -12,6 +12,12 @@ import Canvas from "../pages/canvas";
 import { Draggable } from "./Draggable";
 import styles from "../styles/Main.module.css";
 
+import { Text } from "../components/Components/Text";
+import { Image } from "../components/Components/Image";
+import { Shape } from "../components/Components/Shape";
+import { Button } from "../components/Components/Button";
+import { Video } from "../components/Components/Video";
+
 function PreviewContainer({
   id,
   component,
@@ -42,11 +48,6 @@ function PreviewContainer({
 
   const styles = useMemo(
     () => ({
-      // cursor: state.isDragging ? "-webkit-grabbing" : "-webkit-grab",
-      // transition: state.isDragging ? "none" : "transform 500ms",
-      // zIndex: state.isDragging ? 2 : 1,
-      // cursor: state.isDragging ? "move" : "default",
-      // background: "#ccc",
       position: "absolute",
       transform: `translate(${component.props.styles.left}px, ${component.props.styles.top}px)`,
       width: component.props.styles.width,
@@ -73,29 +74,6 @@ function PreviewContainer({
       </div>
     </Draggable>
   );
-}
-
-function Text() {
-  return (
-    <div
-      contentEditable={true}
-      suppressContentEditableWarning={true}
-    >
-      {'text'}
-    </div>
-  );
-}
-function Image() {
-  return <div>Image Component</div>;
-}
-function Shape() {
-  return <div>Shape Component</div>;
-}
-function Button() {
-  return <div>Button Component</div>;
-}
-function Video() {
-  return <div>Video Component</div>;
 }
 
 const PreviewComponents = {

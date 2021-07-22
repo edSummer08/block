@@ -6,10 +6,10 @@ import { SizeSettings } from "../components/Settings/Common/SizeSettings";
 import { DeleteSettings } from "../components/Settings/Common/DeleteSettings";
 
 import { TextSettings } from "../components/Settings/TextSettings";
-// import { ImageBlockSettings } from "../components/ImageBlock/ImageBlockSettings";
-// import { ShapeBlockSettings } from "../components/ShapeBlock/ShapeBlockSettings";
-// import { ButtonBlockSettings } from "../components/ButtonBlock/ButtonBlockSettings";
-// import { VideoBlockSettings } from "../components/VideoBlock/VideoBlockSettings";
+import { ImageSettings } from "../components/Settings/ImageSettings";
+import { ShapeSettings } from "../components/Settings/ShapeSettings";
+import { ButtonSettings } from "../components/Settings/ButtonSettings";
+import { VideoSettings } from "../components/Settings/VideoSettings";
 
 
 import {
@@ -30,18 +30,18 @@ export default function Navigation() {
     setSelected(selectedComponent);
   }, [selectedComponent]);
 
-  function blockSettingsView() {
+  function settingsView() {
     switch (selected?.name) {
       case "Text":
         return <TextSettings />;
-      // case "Image":
-      //   return <ImageBlockSettings />;
-      // case "Shape":
-      //   return <ShapeBlockSettings />;
-      // case "Button":
-      //   return <ButtonBlockSettings />;
-      // case "Video":
-      //   return <VideoBlockSettings />;
+      case "Image":
+        return <ImageSettings />;
+      case "Shape":
+        return <ShapeSettings />;
+      case "Button":
+        return <ButtonSettings />;
+      case "Video":
+        return <VideoSettings />;
       default:
         break;
     }
@@ -83,7 +83,7 @@ export default function Navigation() {
                     dispatch={dispatch}
                     onChangeSize={changeComponentSize}
                   />
-                  {blockSettingsView()}
+                  {settingsView()}
                   <DeleteSettings
                     selected={selectedComponent}
                     dispatch={dispatch}
